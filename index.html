@@ -574,13 +574,7 @@
                             <td><input type="number" value="7" class="hours-input" min="0"></td>
                             <td><input type="number" value="42" class="tickets-input" min="0"></td>
                             <td><button class="btn btn-remove" onclick="removeRow(2)">ลบ</button></td>
-                        </tr>
-                        <tr data-index="3">
-                            <td><input type="text" value="April" class="month-input"></td>
-                            <td><input type="number" value="1" class="hours-input" min="0"></td>
-                            <td><input type="number" value="6" class="tickets-input" min="0"></td>
-                            <td><button class="btn btn-remove" onclick="removeRow(3)">ลบ</button></td>
-                        </tr>
+                        </tr>/
                     </tbody>
                 </table>
 
@@ -654,9 +648,9 @@
         const ctx = document.getElementById('workChart').getContext('2d');
         
         let chartData = {
-            labels: ['January', 'February', 'March', 'April'],
-            hours: [117, 52, 7, 1],
-            tickets: [46, 55, 42, 6],
+            labels: ['January', 'February', 'March'],
+            hours: [117, 52, 7],
+            tickets: [46, 55, 42],
             baseline: 55
         };
 
@@ -937,9 +931,9 @@
         function resetData() {
             if (confirm('คุณต้องการรีเซ็ตข้อมูลกลับเป็นค่าเริ่มต้นหรือไม่?')) {
                 chartData = {
-                    labels: ['January', 'February', 'March', 'April'],
-                    hours: [117, 52, 7, 1],
-                    tickets: [46, 55, 42, 6],
+                    labels: ['January', 'February', 'March'],
+                    hours: [117, 52, 7],
+                    tickets: [46, 55, 42],
                     baseline: 55
                 };
 
@@ -962,12 +956,6 @@
                         <td><input type="number" value="7" class="hours-input" min="0"></td>
                         <td><input type="number" value="42" class="tickets-input" min="0"></td>
                         <td><button class="btn btn-remove" onclick="removeRow(2)">ลบ</button></td>
-                    </tr>
-                    <tr data-index="3">
-                        <td><input type="text" value="April" class="month-input"></td>
-                        <td><input type="number" value="1" class="hours-input" min="0"></td>
-                        <td><input type="number" value="6" class="tickets-input" min="0"></td>
-                        <td><button class="btn btn-remove" onclick="removeRow(3)">ลบ</button></td>
                     </tr>
                 `;
 
