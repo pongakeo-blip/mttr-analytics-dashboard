@@ -20,13 +20,211 @@
             --text-secondary: #94a3b8;
             --border: #334155;
         }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        * {
-            margin: 0;
+        /* ─── LOGIN OVERLAY ─── */
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #1e293b 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .login-overlay.hide {
+            animation: fadeOut 0.6s ease-in forwards;
+        }
+        @keyframes fadeOut {
+            0%   { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.03); pointer-events: none; }
+        }
+        .login-bg-glow {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 25% 40%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 70%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .login-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+            border-radius: 24px;
+            padding: 2.5rem 2.5rem 2rem;
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(37, 99, 235, 0.1);
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), #06b6d4);
+            border-radius: 24px 24px 0 0;
+        }
+        .login-logo {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+        }
+        .login-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.4rem;
+        }
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .login-form-group {
+            margin-bottom: 1.25rem;
+        }
+        .login-form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .login-input-wrap {
+            position: relative;
+        }
+        .login-input-wrap .input-icon {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            pointer-events: none;
+        }
+        .login-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.8rem 0.9rem 0.8rem 2.6rem;
+            color: var(--text-primary);
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            outline: none;
+        }
+        .login-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+            background: rgba(15, 23, 42, 0.9);
+        }
+        .login-input.error {
+            border-color: var(--baseline);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+            animation: shake 0.4s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .toggle-pw-btn {
+            position: absolute;
+            right: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
             padding: 0;
-            box-sizing: border-box;
+            transition: color 0.2s;
+        }
+        .toggle-pw-btn:hover { color: var(--text-primary); }
+        .login-error-msg {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 0.65rem 0.9rem;
+            color: #fca5a5;
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+            animation: fadeIn 0.3s ease;
+        }
+        .login-error-msg.show { display: flex; align-items: center; gap: 0.5rem; }
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .login-btn:hover::after { opacity: 1; }
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+        }
+        .login-btn:active { transform: translateY(0); }
+        .login-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .login-footer {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .login-footer p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        .login-footer span {
+            color: #60a5fa;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
         }
 
+        /* ─── DASHBOARD ─── */
         body {
             font-family: 'IBM Plex Sans Thai', sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -36,50 +234,38 @@
             position: relative;
             overflow-x: hidden;
         }
-
         body::before {
             content: '';
             position: fixed;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            top: -50%; right: -50%;
+            width: 200%; height: 200%;
+            background:
+                radial-gradient(circle at 30% 50%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
             animation: drift 20s ease-in-out infinite;
             pointer-events: none;
             z-index: 0;
         }
-
         @keyframes drift {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-50px, 50px) rotate(5deg); }
+            50%       { transform: translate(-50px, 50px) rotate(5deg); }
         }
-
         .container {
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
-
         .header {
             text-align: center;
             margin-bottom: 3rem;
             animation: fadeInDown 0.8s ease-out;
+            position: relative;
         }
-
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         h1 {
             font-size: 2.5rem;
             font-weight: 700;
@@ -90,13 +276,52 @@
             margin-bottom: 0.5rem;
             letter-spacing: -0.02em;
         }
-
         .subtitle {
             color: var(--text-secondary);
             font-size: 1.1rem;
             font-weight: 300;
         }
-
+        /* Logout button */
+        .logout-btn {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.25s ease;
+        }
+        .logout-btn:hover {
+            border-color: #ef4444;
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.08);
+        }
+        /* User badge */
+        .user-badge {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: 20px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.85rem;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -104,18 +329,10 @@
             margin-bottom: 3rem;
             animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
-
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -125,23 +342,18 @@
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
         .stat-card:hover {
             transform: translateY(-4px);
             border-color: var(--primary);
             box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2);
         }
-
         .stat-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
         }
-
         .stat-label {
             color: var(--text-secondary);
             font-size: 0.875rem;
@@ -150,19 +362,13 @@
             letter-spacing: 0.05em;
             margin-bottom: 0.5rem;
         }
-
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
             font-family: 'JetBrains Mono', monospace;
             margin-bottom: 0.25rem;
         }
-
-        .stat-subtext {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
+        .stat-subtext { color: var(--text-secondary); font-size: 0.875rem; }
         .chart-container {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -172,22 +378,9 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 0.8s ease-out 0.4s backwards;
         }
-
-        .chart-header {
-            margin-bottom: 2rem;
-        }
-
-        .chart-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .chart-description {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
+        .chart-header { margin-bottom: 2rem; }
+        .chart-title  { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .chart-description { color: var(--text-secondary); font-size: 0.95rem; }
         .legend {
             display: flex;
             justify-content: center;
@@ -195,35 +388,14 @@
             margin-top: 2rem;
             flex-wrap: wrap;
         }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .legend-dot.hours {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-        }
-
-        .legend-dot.tickets {
-            background: var(--accent);
-        }
-
-        .legend-dot.baseline {
-            background: var(--baseline);
-        }
-
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .legend-dot.hours   { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .legend-dot.tickets { background: var(--accent); }
+        .legend-dot.baseline{ background: var(--baseline); }
         .alert-banner {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(220,38,38,0.1));
+            border: 1px solid rgba(239,68,68,0.3);
             border-radius: 12px;
             padding: 1rem 1.5rem;
             margin-bottom: 2rem;
@@ -232,26 +404,10 @@
             gap: 1rem;
             animation: fadeInUp 0.8s ease-out 0.3s backwards;
         }
-
-        .alert-icon {
-            font-size: 1.5rem;
-        }
-
-        .alert-text {
-            flex: 1;
-        }
-
-        .alert-title {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: #fca5a5;
-        }
-
-        .alert-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
+        .alert-icon  { font-size: 1.5rem; }
+        .alert-text  { flex: 1; }
+        .alert-title { font-weight: 600; margin-bottom: 0.25rem; color: #fca5a5; }
+        .alert-description { font-size: 0.9rem; color: var(--text-secondary); }
         .data-editor {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -260,19 +416,13 @@
             margin-bottom: 2rem;
             animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
-
         .editor-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
         }
-
-        .editor-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
+        .editor-title { font-size: 1.25rem; font-weight: 600; }
         .toggle-btn {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -285,32 +435,16 @@
             transition: all 0.3s ease;
             font-family: 'IBM Plex Sans Thai', sans-serif;
         }
-
         .toggle-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
         }
-
-        .editor-content {
-            display: none;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        .editor-content.active {
-            display: block;
-        }
-
+        .editor-content { display: none; animation: slideDown 0.3s ease-out; }
+        .editor-content.active { display: block; }
         @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
         .data-table {
             width: 100%;
             border-collapse: separate;
@@ -319,11 +453,9 @@
             border-radius: 12px;
             background: var(--bg-dark);
         }
-
         .data-table thead {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(124, 58, 237, 0.2));
+            background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(124,58,237,0.2));
         }
-
         .data-table th {
             padding: 1rem;
             text-align: left;
@@ -333,20 +465,9 @@
             letter-spacing: 0.05em;
             color: var(--text-primary);
         }
-
-        .data-table td {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .data-table tbody tr {
-            transition: background-color 0.2s ease;
-        }
-
-        .data-table tbody tr:hover {
-            background: rgba(37, 99, 235, 0.05);
-        }
-
+        .data-table td { padding: 1rem; border-top: 1px solid var(--border); }
+        .data-table tbody tr { transition: background-color 0.2s ease; }
+        .data-table tbody tr:hover { background: rgba(37,99,235,0.05); }
         .data-table input {
             width: 100%;
             background: var(--bg-card);
@@ -358,46 +479,25 @@
             font-size: 0.95rem;
             transition: all 0.2s ease;
         }
-
         .data-table input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
         }
-
-        .data-table input:hover {
-            border-color: var(--primary);
-        }
-
+        .data-table input:hover { border-color: var(--primary); }
         .baseline-control {
             display: flex;
             align-items: center;
             gap: 1rem;
             margin-top: 1.5rem;
             padding: 1rem;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
             border-radius: 12px;
         }
-
-        .baseline-label {
-            font-weight: 600;
-            color: #fca5a5;
-            min-width: 150px;
-        }
-
-        .baseline-control input {
-            flex: 1;
-            max-width: 200px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
+        .baseline-label { font-weight: 600; color: #fca5a5; min-width: 150px; }
+        .baseline-control input { flex: 1; max-width: 200px; }
+        .action-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
         .btn {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -408,38 +508,12 @@
             transition: all 0.3s ease;
             font-family: 'IBM Plex Sans Thai', sans-serif;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-dark);
-            border-color: var(--primary);
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.4); }
+        .btn-secondary { background: transparent; color: var(--text-primary); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--bg-dark); border-color: var(--primary); }
+        .btn-add { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-add:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,185,129,0.4); }
         .btn-remove {
             background: transparent;
             color: #ef4444;
@@ -447,30 +521,21 @@
             padding: 0.5rem 1rem;
             font-size: 0.85rem;
         }
-
-        .btn-remove:hover {
-            background: rgba(239, 68, 68, 0.1);
-        }
-
+        .btn-remove:hover { background: rgba(239,68,68,0.1); }
         .success-message {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1));
+            border: 1px solid rgba(16,185,129,0.3);
             border-radius: 12px;
             padding: 1rem;
             margin-top: 1rem;
             display: none;
             animation: fadeIn 0.3s ease-out;
         }
-
-        .success-message.show {
-            display: block;
-        }
-
+        .success-message.show { display: block; }
         @keyframes fadeIn {
             from { opacity: 0; }
-            to { opacity: 1; }
+            to   { opacity: 1; }
         }
-
         .success-message-text {
             color: #6ee7b7;
             font-weight: 600;
@@ -478,64 +543,102 @@
             align-items: center;
             gap: 0.5rem;
         }
-
         @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .chart-container {
-                padding: 1.5rem;
-            }
-
-            .data-table {
-                font-size: 0.85rem;
-            }
-
-            .data-table th,
-            .data-table td {
-                padding: 0.75rem 0.5rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            .baseline-control {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .baseline-control input {
-                max-width: 100%;
-            }
+            body { padding: 1rem; }
+            h1   { font-size: 2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .chart-container { padding: 1.5rem; }
+            .data-table { font-size: 0.85rem; }
+            .data-table th, .data-table td { padding: 0.75rem 0.5rem; }
+            .action-buttons { flex-direction: column; }
+            .btn { width: 100%; }
+            .baseline-control { flex-direction: column; align-items: flex-start; }
+            .baseline-control input { max-width: 100%; }
+            .logout-btn { position: static; transform: none; margin-top: 0.75rem; }
+            .user-badge { position: static; transform: none; margin-bottom: 0.75rem; }
         }
     </style>
 </head>
 <body>
+
+    <!-- ═══════════════════════════════════════════ LOGIN OVERLAY ══ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-bg-glow"></div>
+        <div class="login-card">
+            <div class="login-logo">📊</div>
+            <h2 class="login-title">MTTR Dashboard</h2>
+            <p class="login-subtitle">กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ</p>
+
+            <div class="login-form-group">
+                <label for="loginUsername">Username</label>
+                <div class="login-input-wrap">
+                    <span class="input-icon">👤</span>
+                    <input
+                        class="login-input"
+                        id="loginUsername"
+                        type="text"
+                        placeholder="กรอก username"
+                        autocomplete="username"
+                        onkeydown="if(event.key==='Enter') document.getElementById('loginPassword').focus()"
+                    >
+                </div>
+            </div>
+
+            <div class="login-form-group">
+                <label for="loginPassword">Password</label>
+                <div class="login-input-wrap">
+                    <span class="input-icon">🔒</span>
+                    <input
+                        class="login-input"
+                        id="loginPassword"
+                        type="password"
+                        placeholder="กรอก password"
+                        autocomplete="current-password"
+                        onkeydown="if(event.key==='Enter') handleLogin()"
+                    >
+                    <button class="toggle-pw-btn" onclick="togglePasswordVisibility()" title="แสดง/ซ่อน password">
+                        <span id="pwEye">👁</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-error-msg" id="loginErrorMsg">
+                <span>⚠️</span>
+                <span id="loginErrorText">Username หรือ Password ไม่ถูกต้อง</span>
+            </div>
+
+            <button class="login-btn" id="loginBtn" onclick="handleLogin()">
+                🔐 เข้าสู่ระบบ
+            </button>
+
+            <div class="login-footer">
+                <p>ระบบ MTTR Analytics &nbsp;|&nbsp; <span>v1.0.0</span></p>
+            </div>
+        </div>
+    </div>
+    <!-- ════════════════════════════════════════════════════════════ -->
+
     <div class="container">
         <div class="header">
+            <div class="user-badge" id="userBadge" style="display:none;">
+                <span>👤</span>
+                <span id="userBadgeText">admin</span>
+            </div>
             <h1>MTTR Analytics Dashboard</h1>
             <p class="subtitle">ภาพรวมการทำงานรายเดือน</p>
+            <button class="logout-btn" onclick="handleLogout()">
+                🚪 ออกจากระบบ
+            </button>
         </div>
 
         <div class="alert-banner">
             <div class="alert-icon">⚠️</div>
             <div class="alert-text">
                 <div class="alert-title">Baseline Alert</div>
-                <div class="alert-description">เส้น baseline มาจากข้อมูลตั้งต้นเดือน Jan 2026 ที่่ MTTR 117 ชั่วโมง ลด 50% จะได้ที่ 55 ชั่วโมงแสดงเป็นเกณฑ์มาตรฐานในการทำงาน</div>
+                <div class="alert-description">
+                    เส้น baseline มาจากข้อมูลตั้งต้นเดือน Jan 2026 ที่ MTTR 117 ชั่วโมง
+                    ลด 50% จะได้ที่ 55 ชั่วโมง แสดงเป็นเกณฑ์มาตรฐานในการทำงาน
+                </div>
             </div>
         </div>
 
@@ -558,23 +661,23 @@
                     </thead>
                     <tbody id="dataTableBody">
                         <tr data-index="0">
-                            <td><input type="text" value="January" class="month-input"></td>
-                            <td><input type="number" value="117" class="hours-input" min="0"></td>
-                            <td><input type="number" value="46" class="tickets-input" min="0"></td>
+                            <td><input type="text"   value="January"  class="month-input"></td>
+                            <td><input type="number" value="117" class="hours-input"   min="0"></td>
+                            <td><input type="number" value="46"  class="tickets-input" min="0"></td>
                             <td><button class="btn btn-remove" onclick="removeRow(0)">ลบ</button></td>
                         </tr>
                         <tr data-index="1">
-                            <td><input type="text" value="February" class="month-input"></td>
-                            <td><input type="number" value="52" class="hours-input" min="0"></td>
-                            <td><input type="number" value="55" class="tickets-input" min="0"></td>
+                            <td><input type="text"   value="February" class="month-input"></td>
+                            <td><input type="number" value="52"  class="hours-input"   min="0"></td>
+                            <td><input type="number" value="55"  class="tickets-input" min="0"></td>
                             <td><button class="btn btn-remove" onclick="removeRow(1)">ลบ</button></td>
                         </tr>
                         <tr data-index="2">
-                            <td><input type="text" value="March" class="month-input"></td>
-                            <td><input type="number" value="7" class="hours-input" min="0"></td>
-                            <td><input type="number" value="42" class="tickets-input" min="0"></td>
+                            <td><input type="text"   value="March"    class="month-input"></td>
+                            <td><input type="number" value="7"   class="hours-input"   min="0"></td>
+                            <td><input type="number" value="42"  class="tickets-input" min="0"></td>
                             <td><button class="btn btn-remove" onclick="removeRow(2)">ลบ</button></td>
-                        </tr>/
+                        </tr>
                     </tbody>
                 </table>
 
@@ -584,9 +687,9 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn btn-primary" onclick="updateChart()">✅ อัปเดตกราฟ</button>
-                    <button class="btn btn-add" onclick="addRow()">➕ เพิ่มเดือน</button>
-                    <button class="btn btn-secondary" onclick="resetData()">🔄 รีเซ็ตเป็นค่าเริ่มต้น</button>
+                    <button class="btn btn-primary"   onclick="updateChart()">✅ อัปเดตกราฟ</button>
+                    <button class="btn btn-add"        onclick="addRow()">➕ เพิ่มเดือน</button>
+                    <button class="btn btn-secondary"  onclick="resetData()">🔄 รีเซ็ตเป็นค่าเริ่มต้น</button>
                 </div>
 
                 <div class="success-message" id="successMessage">
@@ -601,29 +704,29 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Total Hours</div>
-                <div class="stat-value">177</div>
+                <div class="stat-value">176</div>
                 <div class="stat-subtext">ชั่วโมงรวมทั้งหมด</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Total Tickets</div>
-                <div class="stat-value">149</div>
+                <div class="stat-value">143</div>
                 <div class="stat-subtext">จำนวน ticket ทั้งหมด</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Average Hours</div>
-                <div class="stat-value">44.25</div>
+                <div class="stat-value">58.67</div>
                 <div class="stat-subtext">เฉลี่ยต่อเดือน</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Average Tickets</div>
-                <div class="stat-value">37.25</div>
+                <div class="stat-value">47.67</div>
                 <div class="stat-subtext">เฉลี่ยต่อเดือน</div>
             </div>
         </div>
 
         <div class="chart-container">
             <div class="chart-header">
-                <h2 class="chart-title">Report MTTR and Volume   Tickets</h2>
+                <h2 class="chart-title">Report MTTR and Volume Tickets</h2>
                 <p class="chart-description">เปรียบเทียบ MTTR กับจำนวน ticket ที่จัดการในแต่ละเดือน</p>
             </div>
             <canvas id="workChart"></canvas>
@@ -645,12 +748,149 @@
     </div>
 
     <script>
+        /* ══════════════════════════════════════════════════════════
+           LOGIN SYSTEM
+           ────────────────────────────────────────────────────────
+           Credentials (แก้ไขได้ที่นี่):
+             admin   / Admin@2026
+             viewer  / View@2026
+        ══════════════════════════════════════════════════════════ */
+        const USERS = {
+            'admin':  'Admin@2026',
+            'viewer': 'View@2026'
+        };
+        const SESSION_KEY = 'mttr_session';
+
+        function checkSession() {
+            try {
+                const raw = sessionStorage.getItem(SESSION_KEY);
+                if (!raw) return false;
+                const { user, ts } = JSON.parse(atob(raw));
+                // session หมดอายุใน 8 ชั่วโมง
+                if (Date.now() - ts > 8 * 60 * 60 * 1000) {
+                    sessionStorage.removeItem(SESSION_KEY);
+                    return false;
+                }
+                return user;
+            } catch(e) { return false; }
+        }
+
+        function saveSession(user) {
+            const payload = btoa(JSON.stringify({ user, ts: Date.now() }));
+            sessionStorage.setItem(SESSION_KEY, payload);
+        }
+
+        function handleLogin() {
+            const usernameEl = document.getElementById('loginUsername');
+            const passwordEl = document.getElementById('loginPassword');
+            const errorEl    = document.getElementById('loginErrorMsg');
+            const btn        = document.getElementById('loginBtn');
+
+            const username = usernameEl.value.trim();
+            const password = passwordEl.value;
+
+            // Reset error state
+            usernameEl.classList.remove('error');
+            passwordEl.classList.remove('error');
+            errorEl.classList.remove('show');
+
+            if (!username || !password) {
+                showLoginError('กรุณากรอก Username และ Password');
+                if (!username) usernameEl.classList.add('error');
+                if (!password) passwordEl.classList.add('error');
+                return;
+            }
+
+            // Loading state
+            btn.classList.add('loading');
+            btn.textContent = '⏳ กำลังตรวจสอบ...';
+
+            setTimeout(() => {
+                if (USERS[username] && USERS[username] === password) {
+                    // ✅ Login success
+                    saveSession(username);
+                    showDashboard(username);
+                } else {
+                    // ❌ Login failed
+                    btn.classList.remove('loading');
+                    btn.textContent = '🔐 เข้าสู่ระบบ';
+                    showLoginError('Username หรือ Password ไม่ถูกต้อง');
+                    usernameEl.classList.add('error');
+                    passwordEl.classList.add('error');
+                    passwordEl.value = '';
+                }
+            }, 600);
+        }
+
+        function showLoginError(msg) {
+            const errorEl  = document.getElementById('loginErrorMsg');
+            const errorTxt = document.getElementById('loginErrorText');
+            errorTxt.textContent = msg;
+            errorEl.classList.add('show');
+        }
+
+        function showDashboard(username) {
+            const overlay = document.getElementById('loginOverlay');
+            overlay.classList.add('hide');
+            setTimeout(() => { overlay.style.display = 'none'; }, 600);
+
+            // Show user badge
+            const badge = document.getElementById('userBadge');
+            badge.style.display = 'flex';
+            document.getElementById('userBadgeText').textContent = username;
+        }
+
+        function handleLogout() {
+            if (!confirm('ต้องการออกจากระบบหรือไม่?')) return;
+            sessionStorage.removeItem(SESSION_KEY);
+
+            // Reset login form
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginErrorMsg').classList.remove('show');
+            document.getElementById('loginUsername').classList.remove('error');
+            document.getElementById('loginPassword').classList.remove('error');
+            const btn = document.getElementById('loginBtn');
+            btn.classList.remove('loading');
+            btn.textContent = '🔐 เข้าสู่ระบบ';
+
+            // Show overlay
+            const overlay = document.getElementById('loginOverlay');
+            overlay.style.display = 'flex';
+            overlay.classList.remove('hide');
+            overlay.style.animation = 'fadeIn 0.4s ease-out';
+
+            document.getElementById('userBadge').style.display = 'none';
+        }
+
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('pwEye');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                eyeIcon.textContent = '🙈';
+            } else {
+                pwInput.type = 'password';
+                eyeIcon.textContent = '👁';
+            }
+        }
+
+        // Auto-login if session exists
+        window.addEventListener('DOMContentLoaded', function () {
+            const user = checkSession();
+            if (user) { showDashboard(user); }
+        });
+
+
+        /* ══════════════════════════════════════════════════════════
+           CHART & DASHBOARD LOGIC
+        ══════════════════════════════════════════════════════════ */
         const ctx = document.getElementById('workChart').getContext('2d');
-        
+
         let chartData = {
-            labels: ['January', 'February', 'March'],
-            hours: [117, 52, 7],
-            tickets: [46, 55, 42],
+            labels:   ['January', 'February', 'March'],
+            hours:    [117, 52, 7],
+            tickets:  [46, 55, 42],
             baseline: 55
         };
 
@@ -716,14 +956,9 @@
                     responsive: true,
                     maintainAspectRatio: true,
                     aspectRatio: 2,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             backgroundColor: 'rgba(15, 23, 42, 0.95)',
                             titleColor: '#f1f5f9',
@@ -738,17 +973,11 @@
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
+                                    if (label) label += ': ';
                                     if (context.parsed.y !== null) {
-                                        if (context.datasetIndex === 0) {
-                                            label += context.parsed.y + ' ชั่วโมง';
-                                        } else if (context.datasetIndex === 1) {
-                                            label += context.parsed.y + ' tickets';
-                                        } else {
-                                            label += context.parsed.y + ' ชั่วโมง';
-                                        }
+                                        if (context.datasetIndex === 0) label += context.parsed.y + ' ชั่วโมง';
+                                        else if (context.datasetIndex === 1) label += context.parsed.y + ' tickets';
+                                        else label += context.parsed.y + ' ชั่วโมง';
                                     }
                                     return label;
                                 }
@@ -757,17 +986,8 @@
                     },
                     scales: {
                         x: {
-                            grid: {
-                                color: 'rgba(51, 65, 85, 0.3)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 12,
-                                    family: "'IBM Plex Sans Thai', sans-serif"
-                                }
-                            }
+                            grid: { color: 'rgba(51,65,85,0.3)', drawBorder: false },
+                            ticks: { color: '#94a3b8', font: { size: 12, family: "'IBM Plex Sans Thai', sans-serif" } }
                         },
                         y: {
                             type: 'linear',
@@ -777,23 +997,10 @@
                                 display: true,
                                 text: 'MTTR (Hours)',
                                 color: '#60a5fa',
-                                font: {
-                                    size: 13,
-                                    weight: '600',
-                                    family: "'IBM Plex Sans Thai', sans-serif"
-                                }
+                                font: { size: 13, weight: '600', family: "'IBM Plex Sans Thai', sans-serif" }
                             },
-                            grid: {
-                                color: 'rgba(51, 65, 85, 0.3)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11,
-                                    family: "'JetBrains Mono', monospace"
-                                }
-                            }
+                            grid: { color: 'rgba(51,65,85,0.3)', drawBorder: false },
+                            ticks: { color: '#94a3b8', font: { size: 11, family: "'JetBrains Mono', monospace" } }
                         },
                         y1: {
                             type: 'linear',
@@ -803,35 +1010,20 @@
                                 display: true,
                                 text: 'Volume Ticket',
                                 color: '#fbbf24',
-                                font: {
-                                    size: 13,
-                                    weight: '600',
-                                    family: "'IBM Plex Sans Thai', sans-serif"
-                                }
+                                font: { size: 13, weight: '600', family: "'IBM Plex Sans Thai', sans-serif" }
                             },
-                            grid: {
-                                drawOnChartArea: false,
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#94a3b8',
-                                font: {
-                                    size: 11,
-                                    family: "'JetBrains Mono', monospace"
-                                }
-                            }
+                            grid: { drawOnChartArea: false, drawBorder: false },
+                            ticks: { color: '#94a3b8', font: { size: 11, family: "'JetBrains Mono', monospace" } }
                         }
                     }
                 }
             };
-
             return new Chart(ctx, config);
         }
 
         function toggleEditor() {
-            const content = document.getElementById('editorContent');
+            const content    = document.getElementById('editorContent');
             const toggleText = document.getElementById('toggleText');
-            
             if (content.classList.contains('active')) {
                 content.classList.remove('active');
                 toggleText.textContent = 'แสดงตัวแก้ไข';
@@ -843,45 +1035,44 @@
 
         function updateChart() {
             const rows = document.querySelectorAll('#dataTableBody tr');
-            const newLabels = [];
-            const newHours = [];
+            const newLabels  = [];
+            const newHours   = [];
             const newTickets = [];
-            
+
             rows.forEach(row => {
-                const monthInput = row.querySelector('.month-input');
-                const hoursInput = row.querySelector('.hours-input');
+                const monthInput   = row.querySelector('.month-input');
+                const hoursInput   = row.querySelector('.hours-input');
                 const ticketsInput = row.querySelector('.tickets-input');
-                
                 if (monthInput && hoursInput && ticketsInput) {
                     newLabels.push(monthInput.value);
-                    newHours.push(parseFloat(hoursInput.value) || 0);
+                    newHours.push(parseFloat(hoursInput.value)   || 0);
                     newTickets.push(parseFloat(ticketsInput.value) || 0);
                 }
             });
 
             const baseline = parseFloat(document.getElementById('baselineInput').value) || 55;
-            
-            chartData.labels = newLabels;
-            chartData.hours = newHours;
-            chartData.tickets = newTickets;
+
+            chartData.labels   = newLabels;
+            chartData.hours    = newHours;
+            chartData.tickets  = newTickets;
             chartData.baseline = baseline;
 
-            workChart.data.labels = newLabels;
+            workChart.data.labels           = newLabels;
             workChart.data.datasets[0].data = newHours;
             workChart.data.datasets[1].data = newTickets;
             workChart.data.datasets[2].data = new Array(newLabels.length).fill(baseline);
             workChart.data.datasets[2].label = 'Baseline (' + baseline + ' ชั่วโมง)';
-            
+
             workChart.update();
             updateStats();
             showSuccessMessage();
         }
 
         function updateStats() {
-            const totalHours = chartData.hours.reduce((a, b) => a + b, 0);
+            const totalHours   = chartData.hours.reduce((a, b) => a + b, 0);
             const totalTickets = chartData.tickets.reduce((a, b) => a + b, 0);
-            const avgHours = totalHours / chartData.hours.length;
-            const avgTickets = totalTickets / chartData.tickets.length;
+            const avgHours     = totalHours   / chartData.hours.length;
+            const avgTickets   = totalTickets / chartData.tickets.length;
 
             const statCards = document.querySelectorAll('.stat-card');
             statCards[0].querySelector('.stat-value').textContent = totalHours;
@@ -891,18 +1082,16 @@
         }
 
         function addRow() {
-            const tbody = document.getElementById('dataTableBody');
+            const tbody    = document.getElementById('dataTableBody');
             const rowCount = tbody.children.length;
-            const newRow = document.createElement('tr');
+            const newRow   = document.createElement('tr');
             newRow.setAttribute('data-index', rowCount);
-            
             newRow.innerHTML = `
-                <td><input type="text" value="เดือนใหม่" class="month-input"></td>
-                <td><input type="number" value="0" class="hours-input" min="0"></td>
+                <td><input type="text"   value="เดือนใหม่" class="month-input"></td>
+                <td><input type="number" value="0" class="hours-input"   min="0"></td>
                 <td><input type="number" value="0" class="tickets-input" min="0"></td>
                 <td><button class="btn btn-remove" onclick="removeRow(${rowCount})">ลบ</button></td>
             `;
-            
             tbody.appendChild(newRow);
             updateRowIndices();
         }
@@ -922,57 +1111,49 @@
             rows.forEach((row, index) => {
                 row.setAttribute('data-index', index);
                 const removeBtn = row.querySelector('.btn-remove');
-                if (removeBtn) {
-                    removeBtn.setAttribute('onclick', `removeRow(${index})`);
-                }
+                if (removeBtn) removeBtn.setAttribute('onclick', `removeRow(${index})`);
             });
         }
 
         function resetData() {
-            if (confirm('คุณต้องการรีเซ็ตข้อมูลกลับเป็นค่าเริ่มต้นหรือไม่?')) {
-                chartData = {
-                    labels: ['January', 'February', 'March'],
-                    hours: [117, 52, 7],
-                    tickets: [46, 55, 42],
-                    baseline: 55
-                };
-
-                const tbody = document.getElementById('dataTableBody');
-                tbody.innerHTML = `
-                    <tr data-index="0">
-                        <td><input type="text" value="January" class="month-input"></td>
-                        <td><input type="number" value="117" class="hours-input" min="0"></td>
-                        <td><input type="number" value="46" class="tickets-input" min="0"></td>
-                        <td><button class="btn btn-remove" onclick="removeRow(0)">ลบ</button></td>
-                    </tr>
-                    <tr data-index="1">
-                        <td><input type="text" value="February" class="month-input"></td>
-                        <td><input type="number" value="52" class="hours-input" min="0"></td>
-                        <td><input type="number" value="55" class="tickets-input" min="0"></td>
-                        <td><button class="btn btn-remove" onclick="removeRow(1)">ลบ</button></td>
-                    </tr>
-                    <tr data-index="2">
-                        <td><input type="text" value="March" class="month-input"></td>
-                        <td><input type="number" value="7" class="hours-input" min="0"></td>
-                        <td><input type="number" value="42" class="tickets-input" min="0"></td>
-                        <td><button class="btn btn-remove" onclick="removeRow(2)">ลบ</button></td>
-                    </tr>
-                `;
-
-                document.getElementById('baselineInput').value = 55;
-                updateChart();
-            }
+            if (!confirm('คุณต้องการรีเซ็ตข้อมูลกลับเป็นค่าเริ่มต้นหรือไม่?')) return;
+            chartData = {
+                labels: ['January', 'February', 'March'],
+                hours:  [117, 52, 7],
+                tickets:[46, 55, 42],
+                baseline: 55
+            };
+            document.getElementById('dataTableBody').innerHTML = `
+                <tr data-index="0">
+                    <td><input type="text"   value="January"  class="month-input"></td>
+                    <td><input type="number" value="117" class="hours-input"   min="0"></td>
+                    <td><input type="number" value="46"  class="tickets-input" min="0"></td>
+                    <td><button class="btn btn-remove" onclick="removeRow(0)">ลบ</button></td>
+                </tr>
+                <tr data-index="1">
+                    <td><input type="text"   value="February" class="month-input"></td>
+                    <td><input type="number" value="52"  class="hours-input"   min="0"></td>
+                    <td><input type="number" value="55"  class="tickets-input" min="0"></td>
+                    <td><button class="btn btn-remove" onclick="removeRow(1)">ลบ</button></td>
+                </tr>
+                <tr data-index="2">
+                    <td><input type="text"   value="March"    class="month-input"></td>
+                    <td><input type="number" value="7"   class="hours-input"   min="0"></td>
+                    <td><input type="number" value="42"  class="tickets-input" min="0"></td>
+                    <td><button class="btn btn-remove" onclick="removeRow(2)">ลบ</button></td>
+                </tr>
+            `;
+            document.getElementById('baselineInput').value = 55;
+            updateChart();
         }
 
         function showSuccessMessage() {
             const message = document.getElementById('successMessage');
             message.classList.add('show');
-            setTimeout(() => {
-                message.classList.remove('show');
-            }, 3000);
+            setTimeout(() => { message.classList.remove('show'); }, 3000);
         }
 
-        // Initialize stats
+        // Init stats
         updateStats();
     </script>
 </body>
